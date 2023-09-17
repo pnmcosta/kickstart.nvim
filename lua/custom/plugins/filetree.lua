@@ -1,4 +1,4 @@
--- Unless you are still migrating, remove the deprecated commands from v1.x
+-- Unless you are still migrating, remove the deprecated commands from v2.x
 vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
 return {
@@ -12,6 +12,7 @@ return {
 	config = function()
 		require('neo-tree').setup {
 			open_files_do_not_replace_types = { "terminal", "trouble", "qf" },
+			add_blank_line_at_top = false, -- Add a blank line at the top of the tree.
 			source_selector = {
 				winbar = true, -- toggle to show selector on winbar
 				statusline = false, -- toggle to show selector on statusline
