@@ -205,6 +205,11 @@ require('lazy').setup({
           return vim.fn.executable 'make' == 1
         end,
       },
+      -- File Browser
+      {
+        "nvim-telescope/telescope-file-browser.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+      }
     },
   },
 
@@ -337,6 +342,7 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+    file_ignore_patterns = { "node_modules", ".git/", "cache", "dist" },
   },
   pickers = {
     find_files = {
@@ -347,8 +353,23 @@ require('telescope').setup {
         return { '--hidden', '-g', '!.git' }
       end
     },
-  }
+  },
+
+  extensions = {
+    file_browser = {
+      --    theme = "ivy",
+      grouped = true,
+      hide_parent_dir = true,
+      respect_gitignore = false,
+      select_buffer = true,
+      hidden = true,
+      -- disables netrw and use telescope-file-browser in its place
+      hijack_netrw = true,
+    },
+  },
 }
+
+pcall(require("telescope").load_extension, 'file_browser')
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -371,6 +392,8 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set("n", "<leader>fb", ":Telescope file_browser path=%:p:h select_buffer=true<CR>",
+  { desc = '[F]ile [B]rowse' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
