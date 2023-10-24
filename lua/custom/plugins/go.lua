@@ -8,13 +8,22 @@ return {
 		"ray-x/guihua.lua",
 		"neovim/nvim-lspconfig",
 		"nvim-treesitter/nvim-treesitter",
+		"theHamsta/nvim-dap-virtual-text",
 	},
 	config = function()
 		require("mason").setup()
 		require("mason-lspconfig").setup()
 		require('go').setup {
-			lsp_cfg = false
-			-- other setups...
+			goimport = 'gopls', -- if set to 'gopls' will use golsp format
+			gofmt = 'gopls', -- if set to gopls will use golsp format
+			max_line_len = 120,
+			tag_transform = false,
+			test_dir = '',
+			comment_placeholder = '   ',
+			lsp_cfg = false, -- false: use your own lspconfig
+			lsp_gofumpt = true, -- true: set default gofmt in gopls format to gofumpt
+			lsp_on_attach = true, -- use on_attach from go.nvim
+			dap_debug = true,
 		}
 		local cfg = require 'go.lsp'.config() -- config() return the go.nvim gopls setup
 
